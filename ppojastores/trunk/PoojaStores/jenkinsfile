@@ -1,2 +1,21 @@
-
+pipeline {
+	  agent any
+	  stages {
+        stage('Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/swathi-1996/p-5.git']])
+            }
+        }    
+	    stage('build docker image'){
+            steps{
+                sh 'docker build -t swa .'
+            }
+        }
+        stage('build container'){
+            steps{
+                sh 'docker run -itd -p 8000:8000 --name c1 swa'
+            }
+        }
+   } 
+ }
             
